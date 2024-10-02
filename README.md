@@ -1,2 +1,5 @@
-# DataStructure
- 数据结构：C++语言描述（张同珍）全书代码
+# Codes for *Data Structure*
+
+ Codes for *Data Structure(C++ Language Description)* by Zhang Tongzhen
+
+Written during the fall semester in 2024.
