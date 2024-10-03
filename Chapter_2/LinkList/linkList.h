@@ -33,7 +33,7 @@ class linkList
         void remove (int i, elemType &e);
         void reverse() const; //元素就地逆置
         void clear (); //清空表，使其为空表
-        void reverse(); //就地逆置单链表
+        void reversed_insert(const elemType a[], int n);
         ~linkList();
 };
 
@@ -44,14 +44,14 @@ linkList<elemType>::linkList() //构造函数，建立一个空表
 }
 
 template <class elemType>
-bool linkList<elemType>::isEmpty () const //表为空返回true,否则返回false。
+bool linkList<elemType>::isEmpty() const //表为空返回true,否则返回false。
 {
     if (head->next == NULL) return true;
     return false;
 }
 
 template <class elemType>
-void linkList<elemType>::insert (int i, const elemType &e )
+void linkList<elemType>::insert(int i, const elemType &e )
 //在第i个位置上插入新的元素（值为e）
 {   
     if (i < 1) return; //参数i越界
@@ -71,7 +71,7 @@ void linkList<elemType>::insert (int i, const elemType &e )
 }
 
 template <class elemType> 
-void linkList<elemType>::remove (int i, elemType &e)
+void linkList<elemType>::remove(int i, elemType &e)
 {  
     if (i < 1) return;
 
@@ -96,7 +96,7 @@ void linkList<elemType>::remove (int i, elemType &e)
 }
 
 template <class elemType>
-int linkList<elemType>::length () const //表的长度
+int linkList<elemType>::length() const //表的长度
 {
     int count = 0;
     node<elemType> *p;
@@ -152,7 +152,7 @@ int linkList<elemType>::find(const elemType &e)const
 template <class elemType>    //p、q兄弟协同法
 void linkList<elemType>::clear() //清空表，使其为空表
 {    
-    node<elemType> *p,*q;
+    node<elemType> *p, *q;
 
     p = head->next;      
     head->next = NULL;
@@ -166,17 +166,33 @@ void linkList<elemType>::clear() //清空表，使其为空表
 }
 
 template <class elemType>    
-void linkList<elemType>::reverse()
+void linkList<elemType>::reverse() const
 {   
     node<elemType> *p,*q;  //p、q兄弟俩协同
     p = head->next;   
-    head->next = NULL;  
+    head->next = NULL; //先断开头节点
 
     while (p)
     {  
         q = p->next;
-        p->next = head->next; 
-        head->next = p; //首席插入
+        p->next = head->next; head->next = p; //首席插入（逆向）
         p = q;
     }
+}
+
+template <class elemType>
+void linkList<elemType>::reversed_insert(const elemType a[], int n) //首席插入（逆向）
+{  
+    node<elemType> *tmp; 
+    for (int i = 0; i < n; i++)
+    {     
+    head->next = new node(a[i], head->next);
+    }
+}
+
+template <class elemType>
+linkList<elemType>::~linkList()
+{
+    clear();
+    delete head;
 }
