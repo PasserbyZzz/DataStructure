@@ -12,7 +12,7 @@ int main()
     L1.getPoly(); //读入第一个多项式
     L2.getPoly(); //读入第二个多项式
 
-    L3.addPoly(L1,L2); //L1 = L2 +L3
+    L3.addPoly(L1,L2); //L3 = L1 +L2
    	L3.dispPloy(); //显示多项式L3的内容
     
 	return 0;
