@@ -8,6 +8,7 @@ int main()
     // 声明一个栈。
     linkStack<char> s;
     char ctemp;
+
     //从键盘输入若干字符（结束用回车），
     //依照输入次序分别进栈
     cout << "Input the elements, "
@@ -28,9 +29,9 @@ int main()
     {
 		ctemp = s.top();      
         s.pop();
-		cout<<ctemp;
+		cout << ctemp;
 	}	
-    cout<<endl;
+    cout << endl;
 
 	return 0;  
 }

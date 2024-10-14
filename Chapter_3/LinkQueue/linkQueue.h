@@ -53,7 +53,7 @@ void linkQueue<elemType>::enQueue(const elemType &x)  //将x进队，成为新�
         Front = Rear = new Node<elemType>(x);
     else
     { 
-        Rear->next = new Node<elemType>(x); //接队尾，不需要赋值next指针
+        Rear->next = new Node<elemType>(x); //接队尾，不需要赋值next指针，肯定为NULL
         Rear = Rear->next;
     }
 }
@@ -67,7 +67,7 @@ void linkQueue<elemType>::deQueue() //将队首元素出队
     Front = Front->next;
     delete tmp;
 
-    if (!Front) Rear = NULL;
+    if (!Front) Rear = NULL; //最后一个元素出队，队空
 }
 
 template <class elemType>
