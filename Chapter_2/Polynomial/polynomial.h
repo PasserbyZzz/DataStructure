@@ -13,7 +13,8 @@ struct Type
 
 template <class elemType>
 struct Node
-{   elemType data;
+{   
+    elemType data;
     Node* next;
 };
 
