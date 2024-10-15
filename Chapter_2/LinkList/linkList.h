@@ -117,7 +117,7 @@ template <class elemType>  //注意：五步口诀法
 elemType linkList<elemType>::get(int i) const //时间复杂度为O(n)
 //返回第i个元素的值,首元素为第1个元素
 {
-    if (i < 1) throw outOfBound(); ////参数i越界
+    if (i < 1) throw outOfBound(); //参数i越界
 
     int j = 1;
     node<elemType> *p = head->next;
