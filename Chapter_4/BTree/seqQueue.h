@@ -3,8 +3,8 @@
 #ifndef SEQQUEUE_H_INCLUDED
 #define SEQQUEUE_H_INCLUDED
 
-class illegalSize{};
-class outOfBound{};
+class queueIllegalSize{};
+class queueOutOfBound{};
 
 template <class elemType>
 class seqQueue
@@ -29,7 +29,7 @@ seqQueue<elemType>::seqQueue(int size) //初始化队列元素的存储空间
 {
     array = new elemType[size]; //申请实际的队列存储空间
 
-    if (!array) throw illegalSize();
+    if (!array) throw queueIllegalSize();
 
     maxSize = size;
     Front = Rear = 0;
@@ -50,7 +50,7 @@ bool seqQueue<elemType>::isFull() //判断队满否，满返回 true,否则为fa
 template <class elemType>
 elemType seqQueue<elemType>::front() //读取队首元素的值，队首不变
 {
-    if (isEmpty()) throw outOfBound(); //先判断
+    if (isEmpty()) throw queueOutOfBound(); //先判断
 
     return array[Front]; 
 }
@@ -67,7 +67,7 @@ void seqQueue<elemType>::enQueue(const elemType &x)  //将x进队，成为新的
 template <class elemType>
 void seqQueue<elemType>::deQueue() //将队首元素出队
 {  
-    if (isEmpty()) throw outOfBound();
+    if (isEmpty()) throw queueOutOfBound();
 
     Front = (Front+1)%maxSize;
 }
@@ -85,7 +85,7 @@ void seqQueue<elemType>::doubleSpace() //扩展队列元素的存储空间为原
     int i, j;
 
     newArray = new elemType[2*maxSize];
-    if (!newArray) throw illegalSize();
+    if (!newArray) throw queueIllegalSize();
 
     for (i = 0, j = Front; j != Rear; i++, j = (j+1)%maxSize) //直接重排
         newArray[i] = array[j];

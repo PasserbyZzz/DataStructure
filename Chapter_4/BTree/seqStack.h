@@ -1,8 +1,8 @@
 // 顺序栈结构定义及基本操作的实现
 
 // 顺序栈的描述：数组指针array，数组大小maxSize，栈顶下标Top
-class illegalSize{};
-class outOfBound{};
+class stackIllegalSize{};
+class stackOutOfBound{};
 
 template <class elemType>
 class seqStack
@@ -26,7 +26,7 @@ seqStack<elemType>::seqStack(int initSize)//初始化顺序栈
 {	
     array = new elemType[initSize];
 
-	if (!array) throw illegalSize();
+	if (!array) throw stackIllegalSize();
 
 	Top = -1;    
     maxSize = initSize;
@@ -40,7 +40,7 @@ void seqStack<elemType>::doubleSpace() //分配2倍的空间
 
     tmp = new elemType[maxSize*2];
 
-    if (!tmp) throw illegalSize();
+    if (!tmp) throw stackIllegalSize();
 
     for (i = 0; i <= Top; i++)
         tmp[i] = array[i];
@@ -53,7 +53,7 @@ void seqStack<elemType>::doubleSpace() //分配2倍的空间
 template <class elemType>
 elemType seqStack<elemType>::top () //返回栈顶元素的值，不改变栈顶
 {   
-    if (isEmpty()) throw outOfBound();
+    if (isEmpty()) throw stackOutOfBound();
 
     return array[Top];
 }
@@ -70,7 +70,7 @@ void seqStack<elemType>::push(const elemType &e )
 template <class elemType>
 void seqStack<elemType>::pop() //将栈顶元素弹栈
 {  
-    if (Top == -1) throw outOfBound();
+    if (Top == -1) throw stackOutOfBound();
 
     Top--; //不管此元素
 }
