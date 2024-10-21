@@ -58,14 +58,14 @@ class BTree
         void PreOrder(); // 按前序遍历输出二叉树的结点的数据值
         void InOrder(); // 按中序遍历输出二叉树的结点的数据值
         void PostOrder(); // 按后序遍历输出二叉树的结点的数据值
-        void LevelOrder(); // 按中序遍历输出二叉树的结点的数据值
+        void LevelOrder(); // 按层次遍历输出二叉树的结点的数据值
 };
 
 template <class elemType>
 void BTree<elemType>::createTree(const elemType &flag) 
-//创建一棵二叉树
+// 创建一棵二叉树
 {  
-    seqQueue<Node<elemType>*> que;
+    seqQueue<Node<elemType>*> que; //借助队列管理结点
     elemType e, el, er;     
     Node<elemType> *p, *pl, *pr;
 
@@ -73,7 +73,7 @@ void BTree<elemType>::createTree(const elemType &flag)
     cout << "Please input the root: ";       
     cin >> e;
 
-    if (e==flag) // 建立空树
+    if (e == flag) //建立空树
     { 
         root = NULL; 
         return;
@@ -82,7 +82,7 @@ void BTree<elemType>::createTree(const elemType &flag)
     p = new Node<elemType>(e);
     root = p; //根结点为该新创建结点
    
-    que.enQueue(p); // 入队
+    que.enQueue(p); //入队
     while (!que.isEmpty())
     {  
         p = que.front();  //获得队首元素并出队
@@ -99,7 +99,7 @@ void BTree<elemType>::createTree(const elemType &flag)
             que.enQueue(pl);
         }
 
-        if (er!=flag) //该结点有右孩子
+        if (er != flag) //该结点有右孩子
         {      
             pr = new Node<elemType>(er);
             p->right = pr;  
@@ -108,15 +108,15 @@ void BTree<elemType>::createTree(const elemType &flag)
     }
 }
 
-template <class elemType> //公有，用于外部调用
+template <class elemType> //公有，外部调用
 int BTree<elemType>::Size()
 { 
     return Size(root); 
 }
 
-template <class elemType> //私有
+template <class elemType> //私有，内部工具
 int BTree<elemType>::Size (Node<elemType> *t)
-//得到以t为根二叉树结点个数，递归算法实现
+// 得到以t为根二叉树结点个数，递归算法实现
 {  
     if (!t) return 0;
     return 1 + Size(t->left) + Size(t->right);    
@@ -130,7 +130,7 @@ int BTree<elemType>::Height()
 
 template <class elemType>
 int BTree<elemType>::Height(Node<elemType> *t) 
-//得到以t为根二叉树的高度，递归算法实现
+// 得到以t为根二叉树的高度，递归算法实现
 {  
     int hl, hr;     
     if (!t) return 0;
@@ -152,7 +152,7 @@ void BTree<elemType>::DelTree()
 
 template <class elemType>
 void BTree<elemType>::DelTree(Node<elemType> *t)
-//删除以t为根的二叉树，递归算法实现
+// 删除以t为根的二叉树，递归算法实现
 {  
     if (!t) return;       
     DelTree(t->left);       
@@ -168,13 +168,59 @@ void BTree<elemType>::PreOrder()
 
 template <class elemType>
 void BTree<elemType>::PreOrder(Node<elemType> *t)
-//前序遍历以t为根二叉树递归算法的实现。
+// 前序遍历以t为根二叉树递归算法的实现，时间复杂度为O(n)
 {  
     if (!t) return;
     cout << t->data;
 
     PreOrder(t->left);
     PreOrder(t->right);
+}
+
+/*
+template <class elemType>
+void BTree<elemType>::PreOrder() 
+// 前序遍历的非递归算法实现，时间复杂度为O(n)
+{ 
+    if (!root) return;
+
+    Node<elemType> *p;
+    seqStack<Node<elemType>*> s;
+
+    s.push(root);
+    while (!s.isEmpty())
+    {  
+        p = s.top(); 
+        s.pop();
+        cout << p->data;
+        if (p->right) 
+            s.push(p->right);
+        if (p->left)  
+            s.push(p->left);
+    }
+    cout << endl;
+}
+*/
+
+template <class elemType>
+void BTree<elemType>::LevelOrder()
+// 层次遍历二叉树算法的实现，时间复杂度为O(n)
+{   
+    seqQueue<Node<elemType>*> que;
+    Node<elemType> *p;
+
+    if (!root) return; //二叉树为空
+    que.enQueue(root);
+    while (!que.isEmpty())
+    {
+        p = que.front();
+        que.deQueue();
+        cout << p->data;
+
+        if (p->left) que.enQueue(p->left);
+        if (p->right) que.enQueue(p->right);
+    }
+    cout << endl;
 }
 
 # endif
