@@ -60,7 +60,7 @@ class BTree
         void PostOrder(); // 按后序遍历输出二叉树的结点的数据值
         void LevelOrder(); // 按层次遍历输出二叉树的结点的数据值
         Node<elemType>* buildTree(elemType pre[], int pl, int pr,
-                                elemType mid[], int ml, int mr) // 根据二叉树的前序遍历和中序遍历序列建立二叉树
+                                elemType mid[], int ml, int mr); // 根据二叉树的前序遍历和中序遍历序列建立二叉树
 
 };
 
@@ -225,7 +225,7 @@ void BTree<elemType>::InOrder(Node<elemType> *t)
 /*
 template <class elemType>
 void BTree<elemType>::InOrder()
-// 中序遍历的非递归算法实现
+// 中序遍历的非递归算法实现，时间复杂度为O(n)
 {  
     if (!root) return;
 
@@ -237,7 +237,7 @@ void BTree<elemType>::InOrder()
     int zero = 0, one = 1;
 
     p=root;
-    s1.push(p); 
+    s1.push(p); // 同时弹栈、压栈
     s2.push(zero);
 
     while (!s1.isEmpty())
@@ -246,7 +246,7 @@ void BTree<elemType>::InOrder()
         s2.pop();
         p = s1.top(); //读取栈顶元素
 
-        if (flag == 1)
+        if (flag == 1) //访问，并检查有无右子
         { 	
             s1.pop();
             cout << p->data;
@@ -256,7 +256,7 @@ void BTree<elemType>::InOrder()
             s1.push(p->right);
             s2.push(zero);
         }
-        else
+        else //带入左子，并重新压栈
         {   
             s2.push(one);
 
@@ -329,7 +329,7 @@ void BTree<elemType>::PostOrder(Node<elemType> *t)
 /*
 template <class elemType>
 void BTree<elemType>::PostOrder() 
-// 后序遍历的非递归算法实现
+// 后序遍历的非递归算法实现，时间复杂度为O(n)
 {  
     if (!root) return;
 
@@ -348,11 +348,11 @@ void BTree<elemType>::PostOrder()
         p = s1.top();
         switch(flag)
         {  
-            case 2:  
+            case 2: //直接弹出，并访问
                 s1.pop();
                 cout << p->data;
                 break;
-            case 1:  
+            case 1: //检查有无右子，有右子压右子
                 s2.push(two);
                 if (p->right)
                 {
@@ -360,7 +360,7 @@ void BTree<elemType>::PostOrder()
                     s2.push(zero);
                 }
                 break;
-            case 0:    
+            case 0: //检查有无左子，有左子压左子   
                 s2.push(one);
                 if (p->left)
                 {  
@@ -401,17 +401,17 @@ Node<elemType> *BTree<elemType>::buildTree(elemType pre[], int pl, int pr,
 // min数组存储了中序遍历序列，ml为序列左边界下标，mr为序列右边界下标
 {  
     Node<elemType> *p, *leftRoot, *rightRoot;
-    int i, pos, num;
+    int i, pos, num; //根在中序中的位置，子树根的左子树中结点的个数
     int lpl, lpr, lml, lmr; //左子树中前序的左右边界、中序的左右边界
     int rpl, rpr, rml, rmr; //右子树中前序的左右边界、中序的左右边界
 
-    if (pl>pr) return NULL;
+    if (pl > pr) return NULL; //停止条件：子序列长度为0
     p = new Node<elemType>(pre[pl]); //找到子树的根并创建结点
     if (!root) root = p;
 
     // 找根在中序中的位置和左子树中结点个数
     for (i = ml; i <= mr; i++)
-        if (mid[i]==pre[pl]) break;
+        if (mid[i] == pre[pl]) break;
     pos = i; // 子树根在中序中的下标
     num = pos-ml; // 子树根的左子树中结点的个数
      
@@ -429,6 +429,7 @@ Node<elemType> *BTree<elemType>::buildTree(elemType pre[], int pl, int pr,
     rmr = mr;
     rightRoot = buildTree(pre, rpl, rpr, mid, rml, rmr);
      
+    // 把节点连起来
     p->left = leftRoot;
     p->right = rightRoot;
     return p;
