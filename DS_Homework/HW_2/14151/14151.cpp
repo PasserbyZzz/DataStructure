@@ -12,7 +12,7 @@ bool isValid(int seq[], int n)
 
     while (j < n)
     {
-        while (tmp.empty() || tmp.top() < seq[j])
+        while ((tmp.empty() || tmp.top() < seq[j]) && (current <= n))
         {
             tmp.push(current);
             current++;
