@@ -1,10 +1,26 @@
-// 优先级队列（只考虑优先级各不相同的情况）
+// 运算符重载
 
-#ifndef PRIORITYQUEUE_H_INCLUDED
-#define PRIORITYQUEUE_H_INCLUDED
+#include <iostream>
+
+using namespace std;
 
 class illegalSize{};
 class outOfBound{};
+
+struct Node
+{
+    int data;
+    int index;
+
+    Node(int d = 0, int i = 0): data(d), index(i) {}
+    bool operator<(const Node &n) const 
+    { 
+        if (data == n.data)
+            return index < n.index;
+        else
+            return data < n.data; 
+    }
+};
 
 // 从1开始编号
 template <class elemType>
@@ -136,4 +152,35 @@ void priorityQueue<elemType>::doubleSpace()
     maxSize *= 2; // 更新最大容量
 }
 
-# endif
+int main()
+{
+    int n, time;
+    cin >> n >> time;
+
+    Node children[n];
+    for (int i = 0; i < n; i++)
+    {
+        int t;
+        cin >> t;
+
+        if (!(t % time))
+        {
+            children[i].data = t / time - 1;
+            children[i].index = i;
+        } 
+        else
+        {
+            children[i].data = t / time;
+            children[i].index = i;
+        }
+    }
+
+    priorityQueue<Node> childrenQueue(children, n);
+    while (!childrenQueue.isEmpty())
+    {
+        cout << childrenQueue.front().index << ' ';
+        childrenQueue.deQueue();
+    }
+
+    return 0;
+}
