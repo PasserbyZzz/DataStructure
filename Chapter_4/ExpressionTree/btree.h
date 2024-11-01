@@ -468,7 +468,6 @@ int BTree<elemType>::priOver(const char ch1, const char ch2)
     }
 }
 
- 
 //根据一个表达式字符串建立表达式树
 template <class elemType>
 void BTree<elemType>::buildExpTree(const char *exp)
@@ -480,7 +479,7 @@ void BTree<elemType>::buildExpTree(const char *exp)
     char hash='#', ch;
 
     opStack.push(hash);
-    while (*exp)
+    while (*exp) //读入表达式字符串，/0为结束标志
     {
         if ((*exp >= '0') && (*exp <= '9')) //读入数字
         {
@@ -507,8 +506,8 @@ void BTree<elemType>::buildExpTree(const char *exp)
             //当前opStack栈顶不比新读入的操作符优先级高
             if (priOver(*exp, ch) == 0) //优先级一样，即分别为右左括号
                 opStack.pop(); //左括号弹出扔掉即可
-            else 
-                opStack.push(*exp); //opStack栈顶操作符比新读入的操作符优先级低，新读入操作符直接压栈
+            else //当前栈顶比新读入的操作符优先级低
+                opStack.push(*exp); //新读入操作符直接压栈
         }
         exp++;
     }
@@ -541,11 +540,12 @@ int BTree<elemType>::calExpTree()
     //后序遍历
     if (!root) return 0;
 
+    //后序遍历所需的栈
     Node<elemType> *p;
-    seqStack<Node<elemType>*> s1; 
-    seqStack<int> s2;
+    seqStack<Node<elemType>*> s1; //结点栈
+    seqStack<int> s2; //标志栈，用于标识结点的左右子树是否已经访问过
 
-    seqStack<int> numStack; //操作数栈
+    seqStack<int> numStack; //数字栈
     
     int zero=0, one=1, two=2;
     int flag, num, num1, num2;
@@ -559,17 +559,17 @@ int BTree<elemType>::calExpTree()
         p = s1.top();
         switch(flag)
         {            
-            case 2:   
+            case 2: //已经访问过左右子树，访问结点
                 s1.pop();
                 //cout << p->data;
                 //访问结点时，开始处理：
-                //见数字压数字栈，见操作符弹两数字计算，计算结果压数字栈
+                //见数字压数字栈
                 if ((p->data >= '0') && (p->data <= '9'))
                 {
                     num = p->data-'0';
                     numStack.push(num);
                 }           
-                else
+                else //见操作符弹两数字计算，计算结果压数字栈
                 {   
                     num2 = numStack.top(); 
                     numStack.pop();
@@ -594,7 +594,7 @@ int BTree<elemType>::calExpTree()
                 }
                 break;
      
-            case 1:  
+            case 1: //从1到2；访问右子树
                 s2.push(two);
                 if (p->right)
                 {
@@ -603,7 +603,7 @@ int BTree<elemType>::calExpTree()
                 }
                 break;
 
-            case 0:   
+            case 0: //从0到1；访问左子树  
                 s2.push(one);
                 if (p->left)
                 {
