@@ -194,23 +194,23 @@ void binarySearchTree<elemType>::remove(const elemType &x)
 
 template <class elemType> 
 void binarySearchTree<elemType>::remove(const elemType &x, Node<elemType> *&t)
-// 删除操作的递归实现
+// 删除操作的递归实现，时间复杂度O(log_2 n)；注意同样是传引用
 {
     if (!t) return;
-    if (x < t->data)   
+    if (x < t->data) //先找到待删除结点   
         remove(x, t->left);
-    else if (x > t->data )
+    else if (x > t->data)
         remove(x, t->right);
-    else
+    else //找到待删除结点
     {
-        if (!t->left && !t->right) //叶子结点
+        if (!t->left && !t->right) //如果是叶子结点
         {   
             delete t;  //释放待删除结点
-            t = NULL;  //父结点和叶子的链接断开
+            t = NULL;  //父结点和叶子的链接断开（因为这里是传引用）
             return;
         }
 
-        if (!t->left || !t->right) //只有一个孩子
+        if (!t->left || !t->right) //如果只有一个孩子
         {
             Node<elemType> *tmp;
             tmp = t;
@@ -219,14 +219,14 @@ void binarySearchTree<elemType>::remove(const elemType &x, Node<elemType> *&t)
             return;
         }
 
-        //待删除结点有两个孩子的情况，选择右子树的最小结点为替身
+        //待删除结点有两个孩子的情况，这里选择右子树的最小结点为替身
         Node<elemType> *p;
         p = t->right;
-        while (p->left) 
+        while (p->left) //找到右子树的最小结点
             p = p->left;
 
-        t->data = p->data;
-        remove(p->data, t->right);
+        t->data = p->data; //替身结点的值赋给待删除结点
+        remove(p->data, t->right); //以t->right为根删除替身结点
     }
 }
 
