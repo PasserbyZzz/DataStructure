@@ -22,7 +22,7 @@ class BTree
         void mirrortree(int index); //生成以下标/data值为index的子树的镜像
         void PostOrder(int index); //以下标/data值为index的子树的后序遍历
     public:
-        BTree(){ array = new Node[10000]; };
+        BTree(){ array = new Node[10000]; }; //因为结点值不超过10000，故数组大小设为10000
         void createRoot(int a, int b, int c); //根据输入创建根节点
         void createNode(int a, int b, int c); //根据输入不断完善二叉树
         void mirrortree(); //生成整棵二叉树的镜像
