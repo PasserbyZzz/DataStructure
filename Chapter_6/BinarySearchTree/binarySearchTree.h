@@ -230,6 +230,90 @@ void binarySearchTree<elemType>::remove(const elemType &x, Node<elemType> *&t)
     }
 }
 
+template <class elemType> 
+void binarySearchTree<elemType>::remove(const elemType &x)
+// 删除操作的非递归实现
+{
+    if (!root) return;
+
+    Node<elemType> *p, *parent; //p，parent协同
+    int flag; //0为父结点顺左子下来，1为父结点顺右子下来。
+
+    p = root;
+    parent = NULL;
+    while (p)
+    {
+        if (x < p->data)
+        {
+            parent = p; 
+            flag = 0;
+            p = p->left; 
+            continue;
+        }
+        if (x > p->data)
+        {
+            parent = p; 
+            flag = 1;
+            p = p->right; 
+            continue;
+        }
+
+        //删除开始
+        if (!p->left && !p->right) //叶子结点
+        {
+            delete p;
+
+            if (!parent) //待删除结点为根，且根为叶子
+            {
+                root = NULL; 
+                return;
+            } 
+
+            if (flag == 0) //待删除结点为父结点的左子
+                parent->left = NULL;
+            else
+                parent->right = NULL;
+
+            return;
+        }
+
+        if (!p->left || !p->right) //待删除结点仅有一个孩子结点
+        {   
+            Node<elemType> *tmp;   
+            tmp = p;
+
+            if (!parent) //待删除结点为根，且根有一个孩子
+               root = (p->left)? p->left : p->right;
+            else
+                if (flag == 0) //待删除结点为父结点的左子
+                    parent->left = (p->left)? p->left : p->right;
+                else //待删除结点为父结点的右子
+                    parent->right = (p->left)? p->left : p->right;
+
+            delete tmp;     
+            return;
+        }
+
+        //待删除结点有二个孩子结点
+        Node<elemType> *q, *substitute;
+        parent = p;  
+        q = p->left;
+
+        while (q->right) 
+        {
+            parent = q; 
+            q = q->right;
+        }
+        substitute = q;   
+
+        //交换待删除结点和替身的元素值
+        p->data = substitute->data;    
+        substitute->data = x;
+
+        p = substitute; //待删除结点指针变为替身继续返回循环
+    }
+}
+
 template <class elemType>
 void binarySearchTree<elemType>::levelTravese() const
 // 层次遍历二叉树算法的实现，时间复杂度为O(n)
