@@ -243,27 +243,29 @@ void binarySearchTree<elemType>::remove(const elemType &x)
     parent = NULL;
     while (p)
     {
-        if (x < p->data)
+        // 先找到待删除结点
+        if (x < p->data) 
         {
             parent = p; 
             flag = 0;
             p = p->left; 
-            continue;
+            continue; //注意这里的continue
         }
         if (x > p->data)
         {
             parent = p; 
             flag = 1;
             p = p->right; 
-            continue;
+            continue; //注意这里的continue
         }
 
         //删除开始
-        if (!p->left && !p->right) //叶子结点
+        //待删除结点为叶子结点
+        if (!p->left && !p->right) 
         {
             delete p;
 
-            if (!parent) //待删除结点为根，且根为叶子
+            if (!parent) //待删除结点为根，且根为叶子(仅一个结点)
             {
                 root = NULL; 
                 return;
@@ -271,13 +273,14 @@ void binarySearchTree<elemType>::remove(const elemType &x)
 
             if (flag == 0) //待删除结点为父结点的左子
                 parent->left = NULL;
-            else
+            else //待删除结点为父结点的右子
                 parent->right = NULL;
 
             return;
         }
 
-        if (!p->left || !p->right) //待删除结点仅有一个孩子结点
+        //待删除结点仅有一个孩子结点
+        if (!p->left || !p->right) 
         {   
             Node<elemType> *tmp;   
             tmp = p;
@@ -294,7 +297,7 @@ void binarySearchTree<elemType>::remove(const elemType &x)
             return;
         }
 
-        //待删除结点有二个孩子结点
+        // 待删除结点有二个孩子结点，选择左子树的最大结点为替身
         Node<elemType> *q, *substitute;
         parent = p;  
         q = p->left;
@@ -311,6 +314,7 @@ void binarySearchTree<elemType>::remove(const elemType &x)
         substitute->data = x;
 
         p = substitute; //待删除结点指针变为替身继续返回循环
+        //下一次循环其实已经找到x的位置，直接进入叶子/有一个孩子结点的情况
     }
 }
 
