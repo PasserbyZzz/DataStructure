@@ -38,11 +38,11 @@ class binaryAVLSearchTree
 	    void RL(AVLNode<elemType>* &t);
 	    void RR(AVLNode<elemType>* &t);
     public:
-        binarySearchTree(){root = NULL;}
+        binaryAVLSearchTree(){root = NULL;}
         bool search(const elemType &x) const;
         void insert(const elemType &x);
         void remove(const elemType &x);
-        void levelTravese() const; //层次遍历,用于验证插入、删除操作
+        void levelTravese() const; 
 };
 
 template <class elemType>
@@ -91,7 +91,7 @@ void binaryAVLSearchTree<elemType>::insert(const elemType &x, AVLNode<elemType>*
     {	                      
         insert(x, t->left);
 	    if (height(t->left) - height(t->right) == 2) //t为冲突结点
-		    if(x < t->left->data) //在左孩子左子树上插入
+		    if (x < t->left->data) //在左孩子左子树上插入
                 LL(t); 
             else //在左孩子右子树上插入
                 LR(t);
@@ -100,7 +100,7 @@ void binaryAVLSearchTree<elemType>::insert(const elemType &x, AVLNode<elemType>*
     else if (t->data < x) //在右子树上插入
     {                        
 	    insert(x, t->right);
-	    if(height(t->left) - height(t->right) == -2 ) //t为冲突结点
+	    if (height(t->left) - height(t->right) == -2) //t为冲突结点
 		    if(x > t->right->data) 
                 RR(t); //在右孩子右子树上插入
             else 
@@ -114,12 +114,12 @@ void binaryAVLSearchTree<elemType>::insert(const elemType &x, AVLNode<elemType>*
 template <class elemType>
 void binaryAVLSearchTree<elemType>::LL(AVLNode<elemType>* &t)
 {
-    AVLNode<elemType> *newRoot = t->left; // 新的根
+    AVLNode<elemType> *newRoot = t->left; //新的根
     t->left = newRoot->right;
     newRoot->right = t;
-    t->height = max(height(t->left), height(t->right)) + 1;
-    newRoot->height = max(height(newRoot->left), height(newRoot->right)) + 1;
-    t = newRoot;  // 新的父子关联
+    t->height = max(height(t->left), height(t->right)) + 1; //重新计算t的高度
+    newRoot->height = max(height(newRoot->left), height(newRoot->right)) + 1; //重新计算新的根的高度
+    t = newRoot; //新的父子关联
 }
 
 template <class elemType>
@@ -128,8 +128,8 @@ void binaryAVLSearchTree<elemType>::RR(AVLNode<elemType>* &t)
     AVLNode<elemType> *newRoot = t->right; // 新的根
     t->right = newRoot->left;
     newRoot->left = t;
-    t->height = max(height(t->left), height(t->right)) + 1;
-    newRoot->height = max(height(newRoot->left), height(newRoot->right)) + 1;
+    t->height = max(height(t->left), height(t->right)) + 1; //重新计算t的高度
+    newRoot->height = max(height(newRoot->left), height(newRoot->right)) + 1; //重新计算新的根的高度
     t = newRoot; // 新的父子关联
 }
 
@@ -158,21 +158,55 @@ void binaryAVLSearchTree<elemType>::remove(const elemType &x, AVLNode<elemType>*
 {
     if (!t) //未找到
         return; 
+
     else if (x < t->data) //在左子树上删除
     {
         remove(x, t->left);
 
         if (height(t->left) - height(t->right) == -2) //t为冲突节点
-            if (height(t->right->right) > height(t->right->left))
+            if (height(t->right->right) > height(t->right->left)) //相当于在右孩子的右子树上添加
                 RR(t);
-            else
-                LR(t)
+            else //相当于在右孩子的左子树上添加
+                RL(t);
+        else //无冲突，重新计算t的高度
+            t->height = max(height(t->left), height(t->right)) + 1;
     }
-    
+
+    else if (x > t->data) //在右子树上删除
+    {
+        remove(x, t->right);
+
+        if (height(t->left) - height(t->right) == 2) //t为冲突节点
+            if (height(t->left->left) >= height(t->left->right)) //相当于在左孩子的左子树上添加
+                LL(t);
+            else //相当于在左孩子的右子树上添加
+                LR(t);
+        else //无冲突，重新计算t的高度
+            t->height = max(height(t->left), height(t->right)) + 1;
+    }
+
+    else //删除开始
+    {
+        if (!t->left || !t->right) //只有一个孩子或者没有孩子
+        {
+            AVLNode<elemType>* tmp;
+            tmp = t;
+            t = (t->left) ? t->left : t->right; //父节点链接其唯一孩子节点
+            delete tmp; //释放待删除节点
+            return;
+        }
+        // 待删除结点有两个孩子的情况
+        AVLNode<elemType> *p;
+        p = t->right;
+        while (p->left) //找到右子树的最小值
+            p = p->left;
+        t->data = p->data; //将右子树的最小值赋给待删除结点
+        remove(p->data, t->right); //删除右子树的最小值
+    }
 }
+
 template <class elemType>
 void binaryAVLSearchTree<elemType>::levelTravese() const
-// 层次遍历二叉树算法的实现，时间复杂度为O(n)
 {   
     seqQueue<AVLNode<elemType>*> que;
     AVLNode<elemType> *p;
