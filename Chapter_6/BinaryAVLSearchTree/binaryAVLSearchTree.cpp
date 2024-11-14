@@ -156,7 +156,19 @@ void binaryAVLSearchTree<elemType>::remove(const elemType &x)
 template <class elemType>
 void binaryAVLSearchTree<elemType>::remove(const elemType &x, AVLNode<elemType>* &t)
 {
- 
+    if (!t) //未找到
+        return; 
+    else if (x < t->data) //在左子树上删除
+    {
+        remove(x, t->left);
+
+        if (height(t->left) - height(t->right) == -2) //t为冲突节点
+            if (height(t->right->right) > height(t->right->left))
+                RR(t);
+            else
+                LR(t)
+    }
+    
 }
 template <class elemType>
 void binaryAVLSearchTree<elemType>::levelTravese() const
