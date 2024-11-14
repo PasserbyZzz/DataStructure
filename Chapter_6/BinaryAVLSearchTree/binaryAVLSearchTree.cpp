@@ -65,8 +65,6 @@ bool binaryAVLSearchTree<elemType>::search(const elemType &x, AVLNode<elemType> 
         return search(x, t->right);
 }
 
-
-
 template <class elemType>
 int binaryAVLSearchTree<elemType>::height(AVLNode<elemType> *t) const
 {
@@ -75,13 +73,13 @@ int binaryAVLSearchTree<elemType>::height(AVLNode<elemType> *t) const
 }
 
 template <class elemType>
-void binaryAVLSearchTree<elemType>::insert(const elemType & x)
+void binaryAVLSearchTree<elemType>::insert(const elemType &x)
 {
 	insert(x, root);
 }
 
 template <class elemType>
-void binaryAVLSearchTree<elemType>::insert( const elemType & x, AVLNode<elemType> * & t )
+void binaryAVLSearchTree<elemType>::insert(const elemType &x, AVLNode<elemType>* &t)
 {      
     if (!t) //在空树上插入
         t = new AVLNode<elemType>(x); 
@@ -93,26 +91,73 @@ void binaryAVLSearchTree<elemType>::insert( const elemType & x, AVLNode<elemType
     {	                      
         insert(x, t->left);
 	    if (height(t->left) - height(t->right) == 2) //t为冲突结点
-		    if(x < t->left->data) 
+		    if(x < t->left->data) //在左孩子左子树上插入
                 LL(t); 
-            else 
+            else //在左孩子右子树上插入
                 LR(t);
     }
 
     else if (t->data < x) //在右子树上插入
     {                        
-	    insert( x, t->right );
+	    insert(x, t->right);
 	    if(height(t->left) - height(t->right) == -2 ) //t为冲突结点
-		   if( x > t->right->data ) 
-                RR(t); 
+		    if(x > t->right->data) 
+                RR(t); //在右孩子右子树上插入
             else 
-                RL(t);
+                RL(t); //在右孩子左子树上插入
     }
     
     //重新计算t的高度 
-    t->height = max(height( t->left), height(t->right)) + 1;
+    t->height = max(height(t->left), height(t->right)) + 1;
 }
 
+template <class elemType>
+void binaryAVLSearchTree<elemType>::LL(AVLNode<elemType>* &t)
+{
+    AVLNode<elemType> *newRoot = t->left; // 新的根
+    t->left = newRoot->right;
+    newRoot->right = t;
+    t->height = max(height(t->left), height(t->right)) + 1;
+    newRoot->height = max(height(newRoot->left), height(newRoot->right)) + 1;
+    t = newRoot;  // 新的父子关联
+}
+
+template <class elemType>
+void binaryAVLSearchTree<elemType>::RR(AVLNode<elemType>* &t)
+{
+    AVLNode<elemType> *newRoot = t->right; // 新的根
+    t->right = newRoot->left;
+    newRoot->left = t;
+    t->height = max(height(t->left), height(t->right)) + 1;
+    newRoot->height = max(height(newRoot->left), height(newRoot->right)) + 1;
+    t = newRoot; // 新的父子关联
+}
+
+template <class elemType>
+void binaryAVLSearchTree<elemType>::LR(AVLNode<elemType>* &t)
+{
+    RR(t->left);
+    LL(t);
+}
+
+template <class elemType>
+void binaryAVLSearchTree<elemType>::RL(AVLNode<elemType>* &t)
+{
+    LL(t->right);
+    RR(t);
+}
+
+template <class elemType>
+void binaryAVLSearchTree<elemType>::remove(const elemType &x)
+{
+    remove(x, root);
+}
+
+template <class elemType>
+void binaryAVLSearchTree<elemType>::remove(const elemType &x, AVLNode<elemType>* &t)
+{
+ 
+}
 template <class elemType>
 void binaryAVLSearchTree<elemType>::levelTravese() const
 // 层次遍历二叉树算法的实现，时间复杂度为O(n)
