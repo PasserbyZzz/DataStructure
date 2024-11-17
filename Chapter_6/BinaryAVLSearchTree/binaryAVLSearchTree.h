@@ -181,7 +181,8 @@ void binaryAVLSearchTree<elemType>::remove(const elemType &x, AVLNode<elemType>*
                 LL(t);
             else //相当于在左孩子的右子树上添加
                 LR(t);
-        else //无冲突，重新计算t的高度
+        else //无冲突，
+        重新计算t的高度
             t->height = max(height(t->left), height(t->right)) + 1;
     }
 
