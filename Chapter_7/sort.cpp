@@ -58,6 +58,7 @@ void insertSort(elemType a[], int n)
 // 希尔排序
 template <class elemType>
 void shellSort(elemType a[], int n)
+// 时间复杂度 < O(n^2)，不稳定排序
 {   
     int step, i, j;
     elemType tmp;
