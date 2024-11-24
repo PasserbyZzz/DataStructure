@@ -3,6 +3,9 @@
 std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
 定义最大堆
 std::priority_queue<int> maxHeap;
+
+接口
+push,pop,top,empty,size
 */
 
 #include <iostream>
