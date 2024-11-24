@@ -1,3 +1,10 @@
+/*
+定义最小堆
+std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
+定义最大堆
+std::priority_queue<int> maxHeap;
+*/
+
 #include <iostream>
 #include <queue>
 
@@ -7,7 +14,7 @@ int main()
 {
     int N;
     cin >> N;
-
+ 
     // 小顶堆优先级队列，用于存储权重
     priority_queue<int, vector<int>, greater<int>> F;
 
