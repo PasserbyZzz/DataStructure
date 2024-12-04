@@ -113,8 +113,9 @@ bool BTree::isCousin(int x, int y) //层次遍历
         que.pop();
         h = height.front();
         height.pop();
+        
         if (p->data == x) //节点data值与x或y相同
-            height_1 = h;
+            height_1 = h; 
         if (p->data == y)
             height_2 = h;
 

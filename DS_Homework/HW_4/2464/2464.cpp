@@ -1,3 +1,4 @@
+// 节点元素值互不相同
 // 顺序存储真你妈的好用！
 
 #include <iostream>
@@ -8,6 +9,7 @@ using namespace std;
 
 class Forest;
 
+// 树节点类
 class ForestNode
 {
     friend class Forest;
@@ -20,6 +22,7 @@ class ForestNode
         ForestNode(){ left=-1; right=-1; path=-1; flag=false; }
 };
 
+// 树/森林类
 class Forest
 {
     private:
@@ -79,7 +82,7 @@ bool Forest::isAccessible(int index, int node) //类似前序遍历的递归实�
 
     if (array[index].path > 0) //若存在小道
         return isAccessible(array[index].left, node) || isAccessible(array[index].right, node) || isAccessible(array[index].path, node);
-    else //若存在小道
+    else //若不存在小道
         return isAccessible(array[index].left, node) || isAccessible(array[index].right, node);
 }
 
