@@ -53,7 +53,7 @@ bool linkList<elemType>::isEmpty() const //表为空返回true,否则返回false
 }
 
 template <class elemType>
-void linkList<elemType>::insert(int i, const elemType &e )
+void linkList<elemType>::insert(int i, const elemType &e)
 //在第i个位置上插入新的元素（值为e）
 {   
     if (i < 1) return; //参数i越界
