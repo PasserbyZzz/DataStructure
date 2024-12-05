@@ -13,7 +13,7 @@ using namespace std;
 4.当读入的符号是闭括号，反复进行栈顶元素出栈、输出，直到弹栈的是开括号。
 5.当读入的是操作符时，如果栈顶操作符的优先级更高，反复弹栈、输出直到栈顶元素优先级低于读入操作符的优先级，读入操作符压栈；如果栈顶操作符的优先级低，读入的运算符进栈。
 */
-void inToSufForm(char *inStr, char *sufStr) //inStr中缀，sufStr后缀
+void inToSufForm(char *inStr, char *sufStr) //inStr中缀，sufStr后缀 
 {  
     linkStack<char> s; //用字符栈         
     int i,j;   

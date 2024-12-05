@@ -6,7 +6,7 @@
 using namespace  std;
 
 class BTree;
-
+ 
 class Node
 {   
     friend class BTree;
