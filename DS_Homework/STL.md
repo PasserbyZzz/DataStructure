@@ -268,3 +268,5 @@ C++ 中的 `string` 类提供了丰富的成员函数，方便操作和管理字
             return priority < other.priority; // 优先级大的元素优先
         }
     ```
+
+```cpp
