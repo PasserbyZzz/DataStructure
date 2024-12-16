@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <seqlist.h>
+#include <seqQueue.h>
 
 using namespace std;
 
@@ -52,7 +53,8 @@ class Graph
         void removeEdge(verType vertex1, verType vertex2); //删除边
         //返回顶点vertex的第一个邻接点,如果无邻接点返回-1
         void DFS() const;
-        void BFS() const
+        void BFS() const;
+        bool connected() const;
 };
 
 //初始化图结构g，direct为是否有向图标志
@@ -324,6 +326,55 @@ void Graph<verType, edgeType>::BFS() const //广度优先遍历
 	    }
 	    cout << '\n';
 	}     
+}
+
+template <class verType, class edgeType>
+bool Graph<verType, edgeType>::connected() const //无向图是否连通
+{   
+    seqQueue<int> q;     	
+    edgeNode<edgeType> *p;
+    bool *visited;     
+    int i, start, count=0; //count为计数器
+
+    // 为visited创建动态数组空间，并置初始访问标志为false
+    visited = new bool[verts];
+    if (!visited) 
+        throw illegalSize();
+    for (i = 0; i < verts; i++) 
+        visited[i] = false;
+
+    //逐一找到未被访问过顶点，做广度优先遍历
+    for (i = 0; i < verts; i++)
+    {    
+        if (visited[i]) 
+            continue;
+        q.enQueue(i);  
+        count++;  
+
+       while (!q.isEmpty())
+       {   
+            start = q.front(); 
+            q.deQueue();
+            if (visited[start]) 
+                continue;
+            
+            cout << verList[start].data << '\t';
+            visited[start] = true;
+
+            p = verList[start].adj;
+            while (p)
+            {    
+                if (!visited[p->dest])
+                    q.enQueue(p->dest);
+                p = p->link;
+            }	    
+        }
+        cout << '\n';
+    }
+
+    if (count == 1) 
+        return true;
+    return false;     
 }
 
 #endif

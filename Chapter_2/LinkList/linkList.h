@@ -7,7 +7,8 @@ class linkList; //类的前向说明，为声明友元类做准备
 
 template <class elemType>
 class node
-{   friend class linkList<elemType>; //linkList类可以访问自己的private变量
+{   
+    friend class linkList<elemType>; //linkList类可以访问自己的private变量
     private:
         elemType data;
         node *next;

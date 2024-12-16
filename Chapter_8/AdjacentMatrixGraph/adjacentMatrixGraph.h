@@ -1,6 +1,11 @@
 #ifndef ADJACENTMATRIXGRAPH_H_INCLUDED
 #define ADJACENTMATRIXGRAPH_H_INCLUDED
 
+#include <iostream>
+#include <seqStack.h>
+
+using namespace std;
+
 #define DefaultNumVertex 20
 
 class outOfBound{};
@@ -33,6 +38,7 @@ class Graph
         //返回顶点vertex1相对vertex2的下一个邻接点，如果无下一个邻接点返回-1
         int getNextNeighbor(verType vertex1, verType vertex2)const;
         void disp()const; //显示邻接矩阵的值
+        void topoSort() const;
         ~Graph();
 };
 
@@ -152,6 +158,48 @@ void Graph<verType, edgeType>::removeVertex(verType vertex)
     }
 
     verts--;
+}
+
+template <class verType, class edgeType>
+void Graph<verType, edgeType>::topoSort() const // 拓扑排序的实现
+// 时间复杂度O(n^2)；若用邻接表，O(n+e)
+{   
+    int *inDegree;      
+    seqStack<int> s;   
+    int i, j;
+
+    //创建空间并初始化计算每个顶点的入度,
+    //邻接矩阵每一列元素相加,加完入度为零的压栈
+    inDegree = new int[verts];
+    for (j = 0; j < verts; j++)
+    {   
+        inDegree[j] = 0;
+        for (i = 0; i < verts; i++)
+        {     
+            if (( i!= j) && (edgeMatrix[i][j] != noEdge))   
+                inDegree[j]++;   
+        }
+        if (inDegree[j]==0) 
+            s.push(j);
+    }
+        
+    //逐一处理栈中的元素
+    while (!s.isEmpty())
+    {   
+        i = s.top(); 
+        s.pop();
+        cout << i << "  ";
+
+        //将i射出的边指示的邻接点入度减一，减为零时压栈
+        for (j = 0; j < verts; j++)
+            if ((j != i) && (edgeMatrix[i][j] != noEdge))
+            {    
+                inDegree[j]--;    
+                if (inDegree[j] == 0) 
+                    s.push(j);
+            }
+    }
+    cout << endl;
 }
 
 #endif
