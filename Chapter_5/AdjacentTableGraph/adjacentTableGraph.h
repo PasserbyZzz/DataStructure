@@ -401,7 +401,7 @@ void Graph<verType, edgeType>::Prim() const
     edgeType sum; //最小生成树的权值和
     int cnt; //记录集合U中顶点的个数
     int min; //选出当前W中离集合U最短的顶点下标
-    int i, j, selVert;
+    int i, j, selVert; //selVert表示当前顶点
     edgeNode<edgeType> *p;
         
     //创建动态空间
@@ -445,7 +445,7 @@ void Graph<verType, edgeType>::Prim() const
                 break;
         min = i;
         for (j = i+1; j < verts; j++)
-            if (!selected[j] && dist[j]<dist[min])
+            if (!selected[j] && dist[j] < dist[min])
                 min = j;
 
         //将最近的顶点并入U,并将对应的边并于最小生成树
