@@ -4,7 +4,7 @@
 #include <iostream>
 #include <seqStack.h>
 
-using namespace std;
+using namespace std; 
 
 #define DefaultNumVertex 20
 
