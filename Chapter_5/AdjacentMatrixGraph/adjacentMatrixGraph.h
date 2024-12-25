@@ -10,7 +10,7 @@ using namespace std;
 
 class outOfBound{};
 
-// 求关键路径的算法实现：
+// 求关键路径的算法实现
 // 保存边信息
 template <class edgeType>
 struct keyEdge
@@ -20,6 +20,15 @@ struct keyEdge
     edgeType early, last;
 };
 
+// 求单源最短路径Dijikstra算法实现
+template <class edgeType>
+struct DijkstraNode
+{
+    int source; //当前最短路径上前一顶点
+    int dist;   //当前最短路径距离
+    bool selected; //顶点是否已经在S中的标志
+};
+    
 template <class verType, class edgeType>
 class Graph
 {  
@@ -49,7 +58,8 @@ class Graph
         int getNextNeighbor(verType vertex1, verType vertex2)const;
         void disp()const; //显示邻接矩阵的值
         void topoSort() const;
-        void keyActivity (verType start, verType end) const;
+        void keyActivity(verType start, verType end) const;
+        void Dijkstra(verType start) const
         ~Graph();
 };
 
@@ -338,6 +348,79 @@ void Graph<verType, edgeType>::keyActivity(verType start, verType end) const
                  <<"last: " << edgeEL[k].last;
             cout << endl << endl;
         }
+}
+
+template <class verType, class edgeType>
+void Graph<verType, edgeType>::Dijkstra (verType start) const
+// 如果图用邻接矩阵来存储，可以看出时间复杂度为O(𝑛^2)
+{
+    DijkstraNode<edgeType> *DList;
+    int i, j, startInt;
+    int cnt; //记录集合U中顶点的个数
+    int min; //选出的当前离集合最短的顶点
+    int dist; 
+    
+    //查找起始点下标    
+    for (i = 0; i < verts; i++)    
+        if (verList[i] == start)   
+            break;
+    if (i == verts) 
+        return;
+  
+    //创建空间并初始化DList[i]数组
+    startInt = i;    
+    DList = new DijkstraNode<edgeType>[verts];
+    for (i = 0; i < verts; i++)       
+    {  
+        DList[i].source = -1;   
+        DList[i].dist = noEdge;  
+        DList[i].selected = false;    
+    }
+
+    //从下标为startInt的点开始
+    min = startInt;
+    cnt = 1;
+    DList[startInt].source = startInt ;
+    DList[startInt].dist = 0;
+    DList[startInt].selected = true;
+    
+    while (cnt < verts) //包含n-1的节点结束
+    {  
+        //根据min顶点发出的边，判断是否修正相邻顶点的最短距离
+        for (j = 0; j < verts; j++)
+        {  
+            if (edgeMatrix[min][j] == 0) //对角线元素 
+                continue;                      
+            if (DList[j].selected) //已经加入集合S 
+                continue;                      
+            if (edgeMatrix[min][j] == noEdge) //无边  
+                continue;               
+            if (DList[min].dist + edgeMatrix[min][j] < DList[j].dist) //修正相邻顶点的最短距离
+            {  
+                DList[j].dist = DList[min].dist+edgeMatrix[min][j];
+                DList[j].source = min;
+            }
+        }
+            
+        //搜索当前距离标签最小的顶点
+        min = -1;     
+        dist = noEdge;
+        for (i = 0; i < verts; i++)
+        {  
+            if (DList[i].selected) 
+                continue;
+            if (DList[i].dist < dist) 
+            {    
+                min = i; 
+                dist = DList[i].dist;  
+            }
+        }
+
+        //此时min一定为某个顶点的下标，如果仍然为-1表示该无相图不连通
+        //将顶点min加入集合S
+        cnt++;     
+        DList[min].selected = true;
+    } 
 }
 
 #endif
