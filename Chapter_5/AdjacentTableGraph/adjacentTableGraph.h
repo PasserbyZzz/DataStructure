@@ -11,6 +11,16 @@ using namespace std;
 
 class outOfBound{};
 
+// Prim算法实现：
+template <class edgeType>
+struct primNode
+{    
+    int from; //边的一个邻接点
+    int to;   //边的另外一个邻接点
+    edgeType weight; //边的权值
+};
+
+
 template <class edgeType>
 struct edgeNode
 {  
@@ -55,6 +65,7 @@ class Graph
         void DFS() const;
         void BFS() const;
         bool connected() const;
+        void Prim() const;
 };
 
 //初始化图结构g，direct为是否有向图标志
@@ -375,6 +386,76 @@ bool Graph<verType, edgeType>::connected() const //无向图是否连通
     if (count == 1) 
         return true;
     return false;     
+}
+
+template <class verType, class edgeType>
+void Graph<verType, edgeType>::Prim() const
+// Prim算法的实现，时间复杂度为O(𝑛^2)
+// 用小顶堆，则为O(nlogn)
+{  
+    int *source;  //记录源顶点
+    edgeType *dist; //记录顶点到U集合中的距离
+    bool *selected; //记录顶点是否已经到U中
+    primNode<edgeType> *treeEdges; //最小生成树中的边
+
+    edgeType sum; //最小生成树的权值和
+    int cnt; //记录集合U中顶点的个数
+    int min; //选出当前W中离集合U最短的顶点下标
+    int i, j, selVert; //selVert表示当前顶点
+    edgeNode<edgeType> *p;
+        
+    //创建动态空间
+    source = new int[verts];
+    dist = new edgeType[verts];
+    selected = new bool[verts];
+    treeEdges = new primNode<edgeType>[verts-1];
+
+    //初始化
+    for (i = 0; i < verts; i++)
+    {  
+        source[i] = -1;
+        dist[i] = 9999; //用一个很大的值表示无穷大
+        selected[i] = false;    
+    }
+
+    //选中一个起始顶点
+    selVert = 0;
+    source[0] = 0;
+    dist[0] = 0;
+    selected[0] = true;
+    cnt = 1;
+
+    while (cnt < verts)
+    {        
+        //检查selVert的所有仍在W中的邻接点，如有需要查新它的信息
+        p = verList[selVert].adj;
+        while (p)
+        {  
+            if (!selected[p->dest] && (dist[p->dest] > p->weight))
+            {
+                dist[p->dest] = p->weight; 
+                source[p->dest] = selVert;
+            }
+            p = p->link;
+        }
+            
+        //选择W中离U最近的顶点，即dist最小的值
+        for (i = 0; i < verts; i++)
+            if (!selected[i]) 
+                break;
+        min = i;
+        for (j = i+1; j < verts; j++)
+            if (!selected[j] && dist[j] < dist[min])
+                min = j;
+
+        //将最近的顶点并入U,并将对应的边并于最小生成树
+        selVert = min;
+        selected[min] = true;
+        treeEdges[cnt-1].from = source[min];
+        treeEdges[cnt-1].to = min;
+        treeEdges[cnt-1].weight = dist[min];
+        cnt++;
+    }
 }
 
 #endif
