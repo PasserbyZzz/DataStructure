@@ -59,7 +59,7 @@ class Graph
         void disp()const; //显示邻接矩阵的值
         void topoSort() const;
         void keyActivity(verType start, verType end) const;
-        void Dijkstra(verType start) const
+        void Dijkstra(verType start) const;
         ~Graph();
 };
 
