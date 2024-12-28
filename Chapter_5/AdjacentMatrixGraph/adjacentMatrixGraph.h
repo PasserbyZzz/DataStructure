@@ -2,7 +2,7 @@
 #define ADJACENTMATRIXGRAPH_H_INCLUDED
 
 #include <iostream>
-#include <seqStack.h>
+#include "seqStack.h"
 
 using namespace std; 
 
@@ -60,6 +60,7 @@ class Graph
         void topoSort() const;
         void keyActivity(verType start, verType end) const;
         void Dijkstra(verType start) const;
+        void Floyd() const;
         ~Graph();
 };
 
@@ -421,6 +422,52 @@ void Graph<verType, edgeType>::Dijkstra (verType start) const
         cnt++;     
         DList[min].selected = true;
     } 
+}
+
+template <class verType, class edgeType>
+void Graph<verType, edgeType>::Floyd() const
+// Floyd算法实现，时间复杂度为O(n^3)
+{  
+    int i,j,k; 
+    edgeType **A;  //数组A[i][j]记录顶点i到j间的最短距离
+    int **pre;     //数组pre[i][j]记录顶点对i到j的最短路径中的中介顶点，
+
+    //创建动态数组floyd和path
+    A = new edgeType *[verts];
+    pre = new int*[verts];
+    for (i = 0; i < verts; i++)
+    {   
+        A[i] = new edgeType [verts];
+        pre[i] = new int[verts];
+    }
+
+    //初始化数组floyd和path
+    for (i = 0; i < verts; i++)
+        for (j = 0; j < verts; j++)
+        {   
+            A[i][j] = edgeMatrix[i][j]; //将邻接矩阵复制过来
+            pre[i][j] = -1;   
+        }
+       
+    //迭代计算A数组
+    for (k = 0; k < verts; k++) //依次加入顶点0，顶点1……
+    {   
+        for (i = 0; i < verts; i++)
+        {   
+            if (i == k) //避开加A的第k行
+                continue; 
+            for (j = 0; j < verts; j++)
+            {   
+                if ((j == k) || (j == i)) //避开加A的第k列和A的对角线
+                    continue;
+                if (A[i][j] > (A[i][k] + A[k][j])) //更新距离
+                {   
+                    A[i][j] = A[i][k] + A[k][j];   
+                    pre[i][j] = k;
+                }
+            }       
+        }    
+    }
 }
 
 #endif

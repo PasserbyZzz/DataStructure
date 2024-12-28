@@ -1,11 +1,22 @@
-// 冒泡排序 超时！
+// 最小化堆，完美通过！
 
 #include <iostream>
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <queue>
 
 using namespace std;
+
+unordered_map<char, int> order; //存储各个字符与其顺序的映射
+
+bool compare(string word_1, string word_2, unordered_map<char, int> order);
+
+struct CompareString {
+    bool operator()(const string& a, const string& b) {
+        return compare(a, b, order); // "a" > "b" 
+    }
+};
 
 bool compare(string word_1, string word_2, unordered_map<char, int> order)
 // 不考虑等于的情况；word_1排在前面，返回false；word_2排在前面，返回true
@@ -30,34 +41,11 @@ bool compare(string word_1, string word_2, unordered_map<char, int> order)
     }
 }
 
-void bubbleSort(vector<string> &words, int m, unordered_map<char, int> order) 
-// 冒泡排序
-{  
-    int i, j;   
-    bool change = true;
-    string tmp;   
-
-    for (j = m - 1; j > 0 && change; j--) 
-    {    
-        change = false;
-
-        for (i = 0; i < j; i++)
-            if (compare(words[i], words[i+1], order)) 
-            {   
-                tmp = words[i];  
-                words[i] = words[i+1];
-                words[i+1] = tmp;  
-                change = true;
-            } 
-    }
-} 
-
 int main()
 {
     int n, m;
     cin >> n >> m;
 
-    unordered_map<char, int> order; //存储各个字符与其顺序的映射
     for (int i = 0; i < n; i++)
     {
         char character;
@@ -66,21 +54,20 @@ int main()
         order[character] = i;
     }
 
-    vector<string> words;
+    priority_queue<string, vector<string>, CompareString> minHeap;
     for (int i = 0; i < m; i++)
     {
         string word;
         cin >> word;
 
-        words.push_back(word);
+        minHeap.push(word);
     }
 
-    bubbleSort(words, m, order);
-    for (int i = 0; i < m; i++)
+    while (!minHeap.empty()) 
     {
-        cout << words[i] << endl;
+        cout << minHeap.top() << endl; 
+        minHeap.pop();
     }
 
     return 0;
-
 }

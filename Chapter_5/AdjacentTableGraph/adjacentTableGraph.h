@@ -2,8 +2,8 @@
 #define ADJACENTTABLEGRAPH_H_INCLUDED
 
 #include <iostream>
-#include <seqlist.h>
-#include <seqQueue.h>
+#include "seqlist.h"
+#include "seqQueue.h"
 
 using namespace std;
 
