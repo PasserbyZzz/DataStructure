@@ -6,7 +6,8 @@ class outOfBound{};
 
 template <class elemType>
 class seqStack
-{  private:
+{  
+    private:
         elemType *array;    //栈存储数组，存放实际的数据元素。
         int Top;            //栈顶下标。
         int maxSize;	    //栈中最多能存放的元素个数。

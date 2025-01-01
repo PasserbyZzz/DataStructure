@@ -58,7 +58,7 @@ void linkStack<elemType>::pop()
     tmp = Top; //用tmp记住原栈顶结点空间，用于弹栈后的空间释放
     Top = Top->next; //实际将栈顶结点弹出栈
 
-    delete tmp;//释放原栈顶结点空间
+    delete tmp; //释放原栈顶结点空间
 }
 
 template <class elemType>

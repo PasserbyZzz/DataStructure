@@ -55,14 +55,14 @@ bool linkList<elemType>::isEmpty() const //表为空返回true,否则返回false
 
 template <class elemType>
 void linkList<elemType>::insert(int i, const elemType &e)
-//在第i个位置上插入新的元素（值为e）
+//在第i个位置上插入新的元素（值为e），i从1开始
 {   
     if (i < 1) return; //参数i越界
 
     int j = 0; 
     node<elemType> *p = head;
 
-    //找到指向第i个结点的指针
+    //找到指向第i-1个结点的指针
     while (p && j < i-1) //检查p是否为空指针
     { 
         j++;  
@@ -75,13 +75,14 @@ void linkList<elemType>::insert(int i, const elemType &e)
 
 template <class elemType> 
 void linkList<elemType>::remove(int i, elemType &e)
+//删除第i个元素，i从1开始
 {  
     if (i < 1) return;
 
     node<elemType> *p = head;
     int j = 0;
     
-    while (p && j < i-1) //找到指向第i个结点的指针
+    while (p && j < i-1) //找到指向第i-1个结点的指针
     {
         p = p->next;
         j++;
@@ -95,7 +96,7 @@ void linkList<elemType>::remove(int i, elemType &e)
 
     e = q->data;
 	p->next = q->next;
-	delete q;  
+	delete q; //防止内存泄漏
 }
 
 template <class elemType>
@@ -152,7 +153,7 @@ int linkList<elemType>::find(const elemType &e)const
     return 0;
 }
 
-template <class elemType>    //p、q兄弟协同法
+template <class elemType> //p、q兄弟协同法
 void linkList<elemType>::clear() //清空表，使其为空表
 {    
     node<elemType> *p, *q;
@@ -171,7 +172,8 @@ void linkList<elemType>::clear() //清空表，使其为空表
 template <class elemType>    
 void linkList<elemType>::reverse() const
 {   
-    node<elemType> *p,*q;  //p、q兄弟俩协同
+    node<elemType> *p,*q; //p、q兄弟俩协同
+    
     p = head->next;   
     head->next = NULL; //先断开头节点
 
@@ -188,7 +190,7 @@ void linkList<elemType>::reversed_insert(const elemType a[], int n) //首席插�
 {  
     for (int i = 0; i < n; i++)
     {     
-    head->next = new node<elemType>(a[i], head->next);
+        head->next = new node<elemType>(a[i], head->next);
     }
 }
 

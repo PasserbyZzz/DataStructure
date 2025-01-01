@@ -1,5 +1,7 @@
 #include <iostream> 
+
 #define INITSIZE 100 //定义常量
+
 using namespace std;
 
 class illegalSize{};
@@ -7,7 +9,8 @@ class outOfBound{};
 
 template <class elemType>
 class seqList
-{   private:
+{   
+    private:
         elemType *elem; // 顺序表存储数组，存放实际的数据元素
         int len; // 顺序表中的元素个数，亦称表的长度
         int maxSize; // 顺序表最大可能的长度
@@ -23,10 +26,9 @@ class seqList
         //返回值等于e的元素的序号，无则返回0
         int find(const elemType &e) const;
 
-        //在第i个位置上插入新的元素(值为e)
-        //使原来的第i个元素成为第i+1个元素
+        //在第i个位置上插入新的元素(值为e)，使原来的第i个元素成为第i+1个元素
         void insert(int i, const elemType &e); 
-        //若第1个元素存在，删除井将其值放入e指向的空间
+        //若第i个元素存在，删除井将其值放入e指向的空间
         void remove(int i, elemType &e);
 
         void clear() {len = 0;}; //清除顺序表，使其成为空表
@@ -37,9 +39,9 @@ template <class elemType>
 seqList<elemType>::seqList(int size) //初始化顺序表
 {
     elem = new elemType[size]; //申请动态数组
-    if(!elem) throw illegalSize();
+    if (!elem) throw illegalSize();
     maxSize = size - 1; //0下标位置不放元素，用于查找时做哨兵位
-    len=0;
+    len = 0;
 }
 
 template <class elemType>
@@ -47,7 +49,7 @@ void seqList<elemType>::doubleSpace()
 {
     int i;
     elemType *tmp = new elemType[2*maxSize];
-    if(!tmp) throw illegalSize();
+    if (!tmp) throw illegalSize();
 
     for (i = 1; i <= len; i++)
         tmp[i] = elem[i];
@@ -58,7 +60,7 @@ void seqList<elemType>::doubleSpace()
 }
 
 template <class elemType> 
-elemType seqList<elemType>::get(int i)const// 返回第i个元素的值
+elemType seqList<elemType>::get(int i) const //返回第i个元素的值
 {
     if ((i < 1) || (i > len)) throw outOfBound();
     return elem[i];
@@ -76,8 +78,9 @@ int seqList<elemType>::find(const elemType &e) const //时间复杂度为O(n)
 }
 
 template <class elemType>
-void seqList<elemType>::insert (int i, const elemType &e ) //时间复杂度为O(n)
-{  int k;
+void seqList<elemType>::insert(int i, const elemType &e) //时间复杂度为O(n)
+{  
+    int k;
     if ((i < 1) || (i > len + 1)) return; //插入位置越界
     if (len == maxSize) doubleSpace(); //空间满了，无法插入元素
 
@@ -88,8 +91,9 @@ void seqList<elemType>::insert (int i, const elemType &e ) //时间复杂度为O
 }
 
 template <class elemType>
-void seqList<elemType>::remove (int i, elemType &e )
-{   int k;
+void seqList<elemType>::remove(int i, elemType &e)
+{   
+    int k;
     if ((i < 1) || (i > len)) return;
     e = elem[i]; //保存数据
 
