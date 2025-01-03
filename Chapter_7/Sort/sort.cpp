@@ -152,7 +152,7 @@ void mergeSort(elemType a[], int low, int high)
 // 快速排序
 template <class elemType>
 void quickSort(elemType a[], int n)
-// 时间复杂度最好O(nlogn)，最差O(n^2);buwendinhg
+// 时间复杂度最好O(nlogn)，最差O(n^2)
 {    
 	quickSort(a, 0, n-1);
 }
@@ -184,7 +184,7 @@ void quickSort(elemType a[], int start, int end)
         hole = j;
 
         //从i位置开始从前往后找第一个大于等于temp的值
-        while ((i < j)&&(a[i] < temp)) //注意这里是小于
+        while ((i < j) && (a[i] < temp)) //注意这里是小于
             i++;
         if (j == i) 
             break;
@@ -195,10 +195,10 @@ void quickSort(elemType a[], int start, int end)
     a[hole] = temp;
          
     //对标杆位置左边的序列实施同样的方法
-    quickSort(a,start, hole-1);
+    quickSort(a, start, hole-1);
 
     //对标杆位置右边的序列实施同样的方法
-    quickSort(a,hole+1, end);
+    quickSort(a, hole+1, end);
 }
 
 // 选择排序
