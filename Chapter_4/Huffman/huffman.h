@@ -15,10 +15,10 @@ struct HuffmanNode
     int left, right;
 };
 
-//在所有父亲为0的元素中找最小值的下标
+// 在所有父亲为0的元素中找最小值的下标
 template <class elemType>
 int minIndex(HuffmanNode<elemType> Bt[], int k, int m) 
-//k为数组的左边界，m为数组的右边界
+// k为数组的左边界，m为数组的右边界
 {  
     int i, min, minWeight = 9999; //用一个不可能且很大的权值
 
@@ -33,10 +33,10 @@ int minIndex(HuffmanNode<elemType> Bt[], int k, int m)
     return min;  
 }
 
-//构造最优二叉树
+// 构造最优二叉树
 template <class elemType>
 HuffmanNode<elemType> *BestBinaryTree(elemType a[], double w[], int n) 
-//a为叶子结点的数据，w为叶子结点的权值，n为叶子结点的个数
+// a为叶子结点的数据，w为叶子结点的权值，n为叶子结点的个数
 // 算法总的时间复杂度为O(𝑛^2 )（可优化）
 {
     HuffmanNode<elemType> *BBTree;
@@ -55,15 +55,16 @@ HuffmanNode<elemType> *BestBinaryTree(elemType a[], double w[], int n)
         BBTree[i].left = 0;
         BBTree[i].right = 0;
     }
-    i = n-1; // i is the position which is ready for the first new node
+    i = n-1; // i is the position which is ready for the first new node 从i=n-1开始往前建立n-1个中间结点
           
-    while (i != 0) //数组左侧尚有未用空间，即新创建的结点个数还不足
+    while (i != 0) //数组1到n-1的位置尚有未用空间，即新创建的结点个数还不足
     {   
         first_min = minIndex(BBTree, i, m);  
         BBTree[first_min].parent = i; //修改parent值，保证下次找最小值时不会再被找到
         second_min = minIndex(BBTree, i, m);  
         BBTree[second_min].parent = i; //修改parent值，保证下次找最小值时不会再被找到
 
+        // 创建新的中间结点
         BBTree[i].weight = BBTree[first_min].weight + BBTree[second_min].weight;
         BBTree[i].parent = 0;
         BBTree[i].left = first_min; BBTree[i].right = second_min;
@@ -87,11 +88,11 @@ HuffmanNode<elemType> *BestBinaryTree(elemType a[], double w[], int n)
 }
 
 template <class elemType>
-char ** HuffmanCode(HuffmanNode<elemType> BBTree[], int n)
+char **HuffmanCode(HuffmanNode<elemType> BBTree[], int n)
 //n为待编码元素的个数，BBTree数组为Huffman树，数组长度为2n
 //时间复杂度最好为O(nlogn)，最坏为O(n^2)
 {
-    seqStack<char> s;
+    seqStack<char> s; //用于存储编码
     char **HFCode;
     char zero = '0', one = '1';
     int m, i, j, parent, child;
@@ -113,14 +114,14 @@ char ** HuffmanCode(HuffmanNode<elemType> BBTree[], int n)
     {
         child = i;
         parent = BBTree[child].parent;
-        while (parent != 0) //从叶子结点往上找
+        while (parent != 0) //从叶子结点往上找，直到根节点
         {
             if (BBTree[parent].left == child)
                 s.push(zero);
             else
                 s.push(one);
             child = parent;
-            parent = BBTree[parent].parent;
+            parent = BBTree[parent].parent; //迭代
         }
 
         j = 0;

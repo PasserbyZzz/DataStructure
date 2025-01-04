@@ -398,7 +398,7 @@ template <class elemType>
 Node<elemType> *BTree<elemType>::buildTree(elemType pre[], int pl, int pr,
                                          elemType mid[], int ml, int mr)
 // pre数组存储了前序遍历序列，pl为序列左边界下标，pr为序列右边界下标
-// min数组存储了中序遍历序列，ml为序列左边界下标，mr为序列右边界下标
+// mid数组存储了中序遍历序列，ml为序列左边界下标，mr为序列右边界下标
 {  
     Node<elemType> *p, *leftRoot, *rightRoot;
     int i, pos, num; //根在中序中的位置，子树根的左子树中结点的个数

@@ -16,12 +16,13 @@ void bubbleSort(elemType a[], int n)
         change = false;
 
         for (i = 0; i < j; i++)
-        if (a[i] > a[i+1]) //注意是大于
-        {   
-            tmp = a[i];  
-            a[i] = a[i+1];
-            a[i+1] = tmp;  change = true;
-        } 
+            if (a[i] > a[i+1]) //注意是大于
+            {   
+                tmp = a[i];  
+                a[i] = a[i+1];
+                a[i+1] = tmp;  
+                change = true;
+            } 
     }
 } 
 
@@ -66,12 +67,14 @@ void shellSort(elemType a[], int n)
     for (step = n/2; step > 0; step /= 2)
         for (i = step; i < n; i++)
         {    
-            tmp = a[i];
+            //对每个子序列进行插入排序
+            tmp = a[i]; 
             j = i;
             
-            while ((j-step >= 0)&&(tmp < a[j-step]))
+            //找到插入位置
+            while ((j-step >= 0) && (tmp < a[j-step]))
             {   
-                a[j] = a[j-step];
+                a[j] = a[j-step]; //大者后移
                 j -= step;
             }
             a[j] = tmp;
@@ -98,30 +101,30 @@ void merge(elemType a[], int low, int mid, int high)
         if (a[i] <= a[j]) //注意这里是小于等于
         {   
             c[k] = a[i];   
-            i = i + 1;  
+            i++;  
         }
         else
         {  
             c[k] = a[j];   
-            j = j + 1; 
+            j++; 
         }
-        k = k+1;
+        k++;
     }
         
     // 若a序列中i未越界，抄写剩余元素
     while (i <= mid)
     {      
         c[k]=a[i];     
-        i = i + 1;    
-        k = k + 1;    
+        i++;    
+        k++;    
     }
 
     // 若b序列中j未越界，抄写剩余元素
     while (j <= high)
     {     
         c[k] = a[j];     
-        j = j + 1;    
-        k = k + 1;    
+        j++;    
+        k++;    
     }
 
     // 将c中元素抄写进a数组
