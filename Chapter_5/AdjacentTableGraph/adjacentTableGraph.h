@@ -5,6 +5,7 @@
 
 #include "seqlist.h"
 #include "seqQueue.h"
+#include "seqStack.h"
 
 using namespace std;
 
@@ -52,8 +53,8 @@ class Graph
         ~Graph();
         int numberOfVertex()const{ return verts; }; // 返回图当前顶点数
         int numberOfEdge()const{ return edges; }; // 返回图当前边数
-        int getVertex(verType vertex)const; //返回顶点为vertex值的元素在顶点表中的下标
-        bool existEdge(verType vertex1,verType vertex2)const; //判断某两个顶点间是否有边      
+        int getVertex(verType vertex) const; //返回顶点为vertex值的元素在顶点表中的下标
+        bool existEdge(verType vertex1,verType vertex2) const; //判断某两个顶点间是否有边      
         int getFirstNeighbor(verType vertex) const;
         //返回顶点vertex1的相对vertex2的下一个邻接点，如无下一个邻接点返回-1
         int getNextNeighbor(verType vertex1, verType vertex2)const;
