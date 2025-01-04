@@ -250,7 +250,7 @@ void heapSort(elemType a[], int n)
         a[j] = temp;
 
         //调整第0个元素
-        adjust(a, j, 0);
+        adjust(a, j, 0); //注意这里是j，j在逐次减少，逐渐忽略最后已确定位置的元素
     }
 }
 
@@ -266,7 +266,7 @@ void adjust(elemType a[], int n, int i)
     {   
         maxChild = 2*i + 1;  //i的左子下标
 
-        if (maxChild > n-1) return;
+        if (maxChild > n-1) return; //i为叶子结点
         if (maxChild+1 <= n-1) //i还有右子
         {
             if (a[maxChild+1] >= a[maxChild])             

@@ -9,7 +9,8 @@ class outOfBound{};
 
 template <class elemType>
 class seqList
-{   private:
+{   
+    private:
         elemType *elem; // 顺序表存储数组，存放实际的数据元素
         int len; // 顺序表中的元素个数，亦称表的长度
         int maxSize; // 顺序表最大可能的长度

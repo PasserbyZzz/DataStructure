@@ -53,7 +53,7 @@ bool binaryAVLSearchTree<elemType>::search(const elemType &x) const
 
 template <class elemType>
 bool binaryAVLSearchTree<elemType>::search(const elemType &x, AVLNode<elemType> *t) const
-// 查找操作的递归实现，时间复杂度O(log_2 n)；极端情况下O(n)
+// 查找操作的递归实现，时间复杂度O(log_2 n)
 {    
     if (!t) return false;
 
@@ -84,7 +84,7 @@ void binaryAVLSearchTree<elemType>::insert(const elemType &x, AVLNode<elemType>*
     if (!t) //在空树上插入
         t = new AVLNode<elemType>(x); 
 
-	else if(x == t->data) //已存在，结束插入
+	else if (x == t->data) //已存在，结束插入
         return; 
 
     else if (x < t->data) //在左子树上插入
@@ -101,7 +101,7 @@ void binaryAVLSearchTree<elemType>::insert(const elemType &x, AVLNode<elemType>*
     {                        
 	    insert(x, t->right);
 	    if (height(t->left) - height(t->right) == -2) //t为冲突结点
-		    if(x > t->right->data) 
+		    if (x > t->right->data) 
                 RR(t); //在右孩子右子树上插入
             else 
                 RL(t); //在右孩子左子树上插入
@@ -181,8 +181,7 @@ void binaryAVLSearchTree<elemType>::remove(const elemType &x, AVLNode<elemType>*
                 LL(t);
             else //相当于在左孩子的右子树上添加
                 LR(t);
-        else //无冲突，
-        重新计算t的高度
+        else //无冲突，重新计算t的高度
             t->height = max(height(t->left), height(t->right)) + 1;
     }
 

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "seqQueue.h"
+
 using namespace std;
 
 template <class elemType>
@@ -94,7 +95,7 @@ void binarySearchTree<elemType>::insert(const elemType &x, Node<elemType> *&t)
 {   
     if (!t) 
     { 
-        t = new Node<elemType>(x); 
+        t = new Node<elemType>(x); //因为是引用，所以这里直接赋值给t
         return; 
     }
 
@@ -214,7 +215,7 @@ void binarySearchTree<elemType>::remove(const elemType &x, Node<elemType> *&t)
         {
             Node<elemType> *tmp;
             tmp = t;
-            t = (t->left)? t->left : t->right; //父结点链接其唯一孩子结点
+            t = (t->left)? t->left : t->right; //父结点链接其唯一孩子结点（因为这里是传引用）
             delete tmp; //释放待删除结点
             return;
         }
@@ -265,7 +266,8 @@ void binarySearchTree<elemType>::remove(const elemType &x)
         {
             delete p;
 
-            if (!parent) //待删除结点为根，且根为叶子(仅一个结点)
+            // 解引用前先检查是否为空指针
+            if (!parent) //待删除结点为根，且根为叶子(仅一个结点) 
             {
                 root = NULL; 
                 return;
@@ -314,7 +316,7 @@ void binarySearchTree<elemType>::remove(const elemType &x)
         substitute->data = x;
 
         p = substitute; //待删除结点指针变为替身继续返回循环
-        //下一次循环其实已经找到x的位置，直接进入叶子/有一个孩子结点的情况
+        //下一次循环其实已经找到x的位置，直接进入叶子/有一个孩子结点的情况，删除后退出循环
     }
 }
 
@@ -340,4 +342,3 @@ void binarySearchTree<elemType>::levelTravese() const
 }
 
 #endif // BINARYSEARCHTREE_H_INCLUDED
-

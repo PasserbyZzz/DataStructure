@@ -52,13 +52,15 @@ int staticSearch<elemType>::BSearch(const elemType &x) const //折半查找
     while (low <= high)
     {  
         mid = (low + high) / 2;
-        if (x == data[mid]) break; //查找成功    
+
+        if (x == data[mid]) //查找成功
+            break;     
         else
             if (x < data[mid]) 
-                high = mid -1; //x小于中间位置元素
+                high = mid - 1; //x小于中间位置元素
             else  
-                low = mid +1; //x大于中间位置元素
-      }
+                low = mid + 1; //x大于中间位置元素
+    }
 
     if (low <= high) 
         return mid;

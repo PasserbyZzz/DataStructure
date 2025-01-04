@@ -121,6 +121,7 @@ bool Graph<verType, edgeType>::
 existEdge(verType vertex1,verType vertex2) const
 {  
     int i, j;
+
     //找到vertex1和vertex2的下标
     for (i = 0; i < verts; i++)
         if (verList[i] == vertex1)
@@ -131,7 +132,7 @@ existEdge(verType vertex1,verType vertex2) const
     
     if (i == verts || j == verts)   
         return false;
-    if (i ==j) 
+    if (i == j) 
         return false;
     if (edgeMatrix[i][j] == noEdge) 
         return false;
@@ -144,22 +145,24 @@ void Graph<verType, edgeType>::removeVertex(verType vertex)
 //删除顶点
 {  
     int i, j, k;
+
     //找到该顶点在顶点表中的下标
     for (i = 0; i < verts; i++)
         if (verList[i] == vertex)  
             break;
     if (i == verts) 
         return;
+
     //在顶点表中删除顶点
     for (j = i; j < verts-1; j++)
         verList[j] = verList[j+1];
 
-    //计数删除顶点射出的边,边数减少
+    //计数删除顶点射出的边，边数减少
     for (j = 0; j < verts; j++)
-        if ((j != i) && (edgeMatrix[i][j]!= noEdge))
+        if ((j != i) && (edgeMatrix[i][j] != noEdge))
             edges--;
 
-    //如果是有向图，计数删除顶点射入的边,边数减少
+    //如果是有向图，计数删除顶点射入的边，边数减少
     if (directed)
     {    
         for (k = 0; k < verts; k++)
