@@ -201,10 +201,10 @@ void Graph<verType, edgeType>::topoSort() const // 拓扑排序的实现
         inDegree[j] = 0;
         for (i = 0; i < verts; i++)
         {     
-            if (( i!= j) && (edgeMatrix[i][j] != noEdge))   
+            if ((i != j) && (edgeMatrix[i][j] != noEdge))   
                 inDegree[j]++;   
         }
-        if (inDegree[j]==0) 
+        if (inDegree[j] == 0) 
             s.push(j);
     }
         
@@ -231,7 +231,7 @@ template <class verType, class edgeType>
 void Graph<verType, edgeType>::keyActivity(verType start, verType end) const
 // 求关键路径的算法实现，时间复杂度O(n^2)
 {
-    int *inDegree;
+    int *inDegree; //记录每个顶点的入度
     edgeType *verEarly, *verLast; //事件-顶点的最早发生时间、最迟发生时间
     keyEdge<edgeType> *edgeEL; //记录每个活动-边的最早发生时间、最迟发生时间
     seqStack<int> s1; //s1保存入度为0的顶点
@@ -336,8 +336,8 @@ void Graph<verType, edgeType>::keyActivity(verType start, verType end) const
     {   
         u = edgeEL[k].u;    
         v = edgeEL[k].v;
-        edgeEL[k].early = verEarly[u];   
-        edgeEL[k].last  = verLast[v] - edgeEL[k].weight;
+        edgeEL[k].early = verEarly[u]; //边的最早发生时间  
+        edgeEL[k].last  = verLast[v] - edgeEL[k].weight; //边的最迟发生时间
     }
         
     //输出关键活动
