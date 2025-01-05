@@ -78,7 +78,7 @@ void priorityQueue<elemType>::adjust(int hole) //从某个节点开始，向下�
 
         if (minChild+1 <= currentLen) //hole还有右子
            if (array[minChild+1] < array[minChild])             
-                   minChild++; //右子最小
+                minChild++; //右子最小
 
         if (x < array[minChild]) //找到了合适的位置
             break;
@@ -110,14 +110,14 @@ void priorityQueue<elemType>::deQueue() //将队首元素出队
 }
 
 template <class elemType>
-void priorityQueue<elemType>::enQueue(const elemType &x)  //将x进队
+void priorityQueue<elemType>::enQueue(const elemType &x) //将x进队
 {  
     if (isFull()) doubleSpace();
 
     int hole ; //hole位置向上调整
     currentLen++; 
 
-    for (hole = currentLen; hole > 1 && x < array[hole/2]; hole /= 2) //向上调整，只需要比较x和父结点的大小
+    for (hole = currentLen; hole > 1 && x < array[hole/2]; hole /= 2) //向上调整，只需要比较x和父结点的大小；array[hole/2]是父结点
         array[hole] = array[hole/2]; //hole的父结点下移
     array[hole] = x; //找到了合适的位置，插入x
 }
