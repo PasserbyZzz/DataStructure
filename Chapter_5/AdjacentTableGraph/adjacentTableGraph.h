@@ -227,9 +227,10 @@ void Graph<verType, edgeType>::DFS() const //深度优先遍历
     for (i = 0; i < verts; i++) 
         visited[i] = false;
 
+    // 逐一找到未被访问过顶点，做深度优先遍历
     for (i = 0; i < verts; i++)
     {  
-        if (!visited[i]) 
+        if (!visited[i]) //如果顶点i未被访问过，则从顶点i开始深度优先遍历
             DFS(i, visited);
         cout << endl;     
     }       
@@ -241,9 +242,10 @@ void Graph<verType, edgeType>::DFS(int start, bool visited[]) const
     edgeNode<edgeType> *p;
 
     cout << verList[start].data << '\t';     
-    visited[start] = true;    
-    p = verList[start].adj;
+    visited[start] = true; //标记该顶点已被访问   
+    p = verList[start].adj; //第一条边结点
 
+    // 递归访问所有未被访问的邻接点
     while (p)
     {  
         if (!visited[p->dest]) 
