@@ -38,8 +38,8 @@ class BTree
         Node<elemType> *root;
         elemType stopFlag;
 
-        int Size (Node<elemType> *t); //求以t为根的二叉树的结点个数。
-        int Height (Node<elemType> *t); //求以t为根的二叉树的高度。
+        int Size (Node<elemType> *t); // 求以t为根的二叉树的结点个数。
+        int Height (Node<elemType> *t); // 求以t为根的二叉树的高度。
         void DelTree(Node<elemType> *t); // 删除以t为根的二叉树
         void PreOrder(Node<elemType> *t);
         // 按前序遍历输出以t为根的二叉树的结点的数据值
@@ -52,8 +52,8 @@ class BTree
         void createTree(const elemType &flag); //创建一棵二叉树
         bool isEmpty (){ return (root == NULL); } // 二叉树为空返回true，否则返回false
         Node<elemType>* GetRoot(){ return  root; } //返回根节点
-        int Size (); //求二叉树的结点个数。
-        int Height (); //求二叉树的高度。
+        int Size (); //求二叉树的结点个数
+        int Height (); //求二叉树的高度
         void DelTree(); //删除二叉树
         void PreOrder(); // 按前序遍历输出二叉树的结点的数据值
         void InOrder(); // 按中序遍历输出二叉树的结点的数据值
@@ -346,6 +346,7 @@ void BTree<elemType>::PostOrder()
         flag = s2.top(); 
         s2.pop();
         p = s1.top();
+        
         switch(flag)
         {  
             case 2: //直接弹出，并访问

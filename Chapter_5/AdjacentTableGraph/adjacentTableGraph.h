@@ -223,7 +223,6 @@ void Graph<verType, edgeType>::DFS() const //深度优先遍历
     visited = new bool[verts];   
     if (!visited) 
         throw illegalSize();
-
     for (i = 0; i < verts; i++) 
         visited[i] = false;
 
@@ -333,8 +332,8 @@ void Graph<verType, edgeType>::BFS() const //广度优先遍历
  
      	    p = verList[start].adj;
 	        while (p)
-	        {   
-                if (!visited[p->dest])
+	   d:\Users\dell\Documents\WeChat Files\wxid_ntw7z2j81otx22\FileStorage\File\2025-01\数据结构.zip     {   
+       d:\Users\dell\Documents\WeChat Files\wxid_ntw7z2j81otx22\FileStorage\File\2025-01\数据结构.zip         if (!visited[p->dest])
                     q.enQueue(p->dest);
                 p = p->link;
 	        }

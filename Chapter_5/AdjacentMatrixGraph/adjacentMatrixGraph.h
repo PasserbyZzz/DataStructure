@@ -117,8 +117,7 @@ int Graph<verType, edgeType>::getVertex(verType vertex) const
 
 //判断某两个顶点是否有边
 template <class verType, class edgeType>
-bool Graph<verType, edgeType>::
-existEdge(verType vertex1,verType vertex2) const
+bool Graph<verType, edgeType>::existEdge(verType vertex1,verType vertex2) const
 {  
     int i, j;
 
