@@ -332,8 +332,8 @@ void Graph<verType, edgeType>::BFS() const //广度优先遍历
  
      	    p = verList[start].adj;
 	        while (p)
-	   d:\Users\dell\Documents\WeChat Files\wxid_ntw7z2j81otx22\FileStorage\File\2025-01\数据结构.zip     {   
-       d:\Users\dell\Documents\WeChat Files\wxid_ntw7z2j81otx22\FileStorage\File\2025-01\数据结构.zip         if (!visited[p->dest])
+            {   
+               if (!visited[p->dest])
                     q.enQueue(p->dest);
                 p = p->link;
 	        }
